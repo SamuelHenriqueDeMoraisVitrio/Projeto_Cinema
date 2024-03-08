@@ -38,7 +38,7 @@ void selecLetra(){
 };
 
 struct valorAssento{//a quantidade de assentos
-    char nome[2];//nome de cada poltrona
+    short nome;//nome de cada poltrona
     bool vaga;//vaga da poltrona
 };
 
@@ -78,16 +78,42 @@ int main(){
         };
     }while(true);
 
-sleep(5);
+    sleep(5);
 
     struct valorAssento PosiAssento[colunas][linhas];
-    strcpy(PosiAssento[0][0].nome, "A1");
-    //PosiAssento[0][0].nome = "A1";
+    
+    for(int i = 0; i < colunas; i++){
+        for (int j = 0; j < linhas; j++){
+            PosiAssento[i][j].nome = j + 1;
+        };
+    };
 
-    printf("\n\n\n%s\n\n\n", PosiAssento[0][2].nome);
-    /*
-    for(int i = 0; i <= colunas; i++){
+    short qtdBancoPAlugar = 0;
+    do{
+        printf("Você quer alugar quantos bancos?");
+        scanf("%hd", qtdBancoPAlugar);
 
-        //valorAssento[i][0].nome = 
-    };*/
+        if(qtdBancoPAlugar < 1){
+            return 0;
+        }else if(qtdBancoPAlugar < colunas * linhas && qtdBancoPAlugar >= 1){
+            break;
+        }else if(qtdBancoPAlugar > colunas * linhas){
+            system("clear");
+            printf("Não temos tantos bancos, sorry");
+            sleep(2);
+        }else if(qtdBancoPAlugar == colunas * linhas){
+            printf("\n\nVocê alugou todos bancos.\n\n");
+            for(int i = 0; i < colunas; i++){
+                for (int j = 0; j < linhas; j++){
+                    PosiAssento[i][j].vaga = true;
+                };
+            };
+            break;
+        };
+    }while(true);
+
+    //for(int l = 0, l <= qtdBancoPAlugar, l++){};
+    
+
+    //printf("\n\n\n%hd\n\n\n", PosiAssento[colunas - 1][linhas - 1].nome);
 };
