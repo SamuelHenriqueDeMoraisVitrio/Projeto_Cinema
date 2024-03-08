@@ -8,6 +8,7 @@
 #include <stdlib.h>//comandos no terminal
 #include <string.h>//Trabalha com string
 
+/*
 void selecLetra(){
     char a1 = 'A';
     char a2 = 'B';
@@ -36,6 +37,7 @@ void selecLetra(){
     char a25 = 'Y';
     char a26 = 'Z';
 };
+*/
 
 struct valorAssento{//a quantidade de assentos
     short nome;//nome de cada poltrona
@@ -87,11 +89,16 @@ int main(){
             PosiAssento[i][j].nome = j + 1;
         };
     };
+    for(int i = 0; i < colunas; i++){
+        for (int j = 0; j < linhas; j++){
+            PosiAssento[i][j].vaga = false;
+        };
+    };
 
     short qtdBancoPAlugar = 0;
     do{
         printf("Você quer alugar quantos bancos?");
-        scanf("%hd", qtdBancoPAlugar);
+        scanf("%hd", &qtdBancoPAlugar);
 
         if(qtdBancoPAlugar < 1){
             return 0;
@@ -108,12 +115,40 @@ int main(){
                     PosiAssento[i][j].vaga = true;
                 };
             };
-            break;
+            return 0;
         };
     }while(true);
 
-    //for(int l = 0, l <= qtdBancoPAlugar, l++){};
-    
+    for(int l = 1; l <= qtdBancoPAlugar; l++){
+        system("clear");
+        short bancoAC = NULL;
+        short bancoAL = NULL;
+        while(true){
+            printf("\n\nVai alugar o banco e qual coluna, lembrando que temos somente %hd colunas.\n", colunas);
+            scanf("%hd", &bancoAC);
+            if(bancoAC < 1 || bancoAC > colunas){
+                printf("\nEsse numero não é valido.\n");
+            }else{
+                break;
+            };
+        };
+        while(true){
+            printf("\n\nVai alugar o banco e qual linha, lembrando que temos somente %hd linhas.\n", linhas);
+            scanf("%hd", &bancoAL);
+            if(bancoAL < 1 || bancoAL > linhas){
+                printf("\nEsse numero não é valido.\n");
+            }else{
+                break;
+            };
+        };
+
+        if(PosiAssento[bancoAC][bancoAL].vaga){
+            printf("Este ja foi alugado. Tente outro");
+            qtdBancoPAlugar--;
+        }else{
+            PosiAssento[bancoAC][bancoAL].vaga = true;
+        };
+    };
 
     //printf("\n\n\n%hd\n\n\n", PosiAssento[colunas - 1][linhas - 1].nome);
 };
