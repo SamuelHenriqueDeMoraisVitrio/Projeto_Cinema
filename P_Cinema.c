@@ -8,40 +8,69 @@
 #include <stdlib.h>//comandos no terminal
 #include <string.h>//Trabalha com string
 
-/*
-void selecLetra(){
-    char a1 = 'A';
-    char a2 = 'B';
-    char a3 = 'C';
-    char a4 = 'D';
-    char a5 = 'E';
-    char a6 = 'F';
-    char a7 = 'G';
-    char a8 = 'H';
-    char a9 = 'I';
-    char a10 = 'J';
-    char a11 = 'K';
-    char a12 = 'L';
-    char a13 = 'M';
-    char a14 = 'N';
-    char a15 = 'O';
-    char a16 = 'P';
-    char a17 = 'Q';
-    char a18 = 'R';
-    char a19 = 'S';
-    char a20 = 'T';
-    char a21 = 'U';
-    char a22 = 'V';
-    char a23 = 'W';
-    char a24 = 'X';
-    char a25 = 'Y';
-    char a26 = 'Z';
+
+char selecLetra(short letra){
+    switch(letra){
+        case 1:
+            return 'A';
+        case 2:
+            return 'B';
+        case 3:
+            return 'C';
+        case 4:
+            return 'D';
+        case 5:
+            return 'E';
+        case 6:
+            return 'F';
+        case 7:
+            return 'G';
+        case 8:
+            return 'H';
+        case 9:
+            return 'I';
+        case 10:
+            return 'J';
+        case 11:
+            return 'K';
+        case 12:
+            return 'L';
+        case 13:
+            return 'M';
+        case 14:
+            return 'N';
+        case 15:
+            return 'O';
+        case 16:
+            return 'P';
+        case 17:
+            return 'Q';
+        case 18:
+            return 'R';
+        case 19:
+            return 'S';
+        case 20:
+            return 'T';
+        case 21:
+            return 'U';
+        case 22:
+            return 'V';
+        case 23:
+            return 'W';
+        case 24:
+            return 'X';
+        case 25:
+            return 'Y';
+        case 26:
+            return 'Z';
+    };
+
 };
-*/
 
 struct valorAssento{//a quantidade de assentos
-    short nome;//nome de cada poltrona
+    char nome[5];//nome de cada poltrona
     bool vaga;//vaga da poltrona
+    short numColum;
 };
 
 int main(){//função principal
@@ -85,9 +114,13 @@ int main(){//função principal
 
     struct valorAssento PosiAssento[colunas][linhas];//cria um array com 2 dimensôes dentro da estrutura 'valorAssento'
     
+    short numLetra = 0;
     for(int i = 0; i < colunas; i++){//escrevi o nome e cada coluna
+        numLetra++;
+        char proxLetra = selecLetra(numLetra);
         for (int j = 0; j < linhas; j++){//escrevi o nome de cada linha
-            PosiAssento[i][j].nome = j + 1;
+            sprintf(PosiAssento[i][j].nome, "%c%d", proxLetra, j + 1);
+            PosiAssento[i][j].numColum = (short)j + 1;
         };
     };
 
@@ -122,11 +155,34 @@ int main(){//função principal
     }while(true);
 
     for(int l = 1; l <= qtdBancoPAlugar; l++){//escolhe as poltronas de acordo com as colunas e linhas
-        system("clear");
+    system("clear");
+    printf("\nOs bancos que não foram alugados ainda estão em vermelho\n");
+    for(int k = 0; k < colunas; k++){//escrevi o nome e cada coluna
+        printf("\n");
+        for (int u = 0; u < linhas; u++){//escrevi o nome de cada linha
+            if(PosiAssento[k][u].vaga){
+            printf("\x1b[32m%s\x1b[0m ", PosiAssento[k][u].nome);
+            }else{
+            printf("\x1b[31m%s\x1b[0m ", PosiAssento[k][u].nome);
+            };
+        };
+    };
+    /*
+    printf("\n\n");
+    printf("\nOs bancos que não foram alugados ainda estão em vermelho\n");
+    for(int i = 0; i < colunas; i++){//escrevi o nome e cada coluna
+        printf("\n");
+        for (int j = 0; j < linhas; j++){//escrevi o nome de cada linha
+            printf("\x1b[31m%hd ", PosiAssento[i][j].numColum);
+        };
+    };
+    printf("\n\n");
+    */
+        
         short bancoAC = NULL;
         short bancoAL = NULL;
         while(true){
-            printf("\n\nVai alugar o banco e qual coluna, lembrando que temos somente %hd colunas.\n", colunas);
+            printf("\n\nVai alugar o banco de qual coluna, lembrando que temos somente %hd colunas.\n", colunas);
             scanf("%hd", &bancoAC);
             if(bancoAC < 1 || bancoAC > colunas){
                 printf("\nEsse numero não é valido.\n");
@@ -144,12 +200,32 @@ int main(){//função principal
             };
         };
 
-        if(PosiAssento[bancoAC][bancoAL].vaga){
+        if(PosiAssento[bancoAC - 1][bancoAL - 1].vaga){
             printf("Este ja foi alugado. Tente outro");
             l = l - 1;//para repetir o for mais uma vez
         }else{
-            PosiAssento[bancoAC][bancoAL].vaga = true;
+            PosiAssento[bancoAC - 1][bancoAL - 1].vaga = true;
         };
+        sleep(1);
     };
 
+    sleep(2);
+    system("clear");
+
+    printf("\n\n");
+    printf("******************************\n");
+    printf("** %s **\n", nomeFilm);
+    printf("******************************\n");
+    printf("\n\n");
+    for(int k = 0; k < colunas; k++){//escrevi o nome e cada coluna
+        printf("\n");
+        for (int u = 0; u < linhas; u++){//escrevi o nome de cada linha
+            if(PosiAssento[k][u].vaga){
+            printf("\x1b[32m%s\x1b[0m ", PosiAssento[k][u].nome);
+            }else{
+            printf("\x1b[31m%s\x1b[0m ", PosiAssento[k][u].nome);
+            };
+        };
+    };
+    printf("\n\nFim Program\n\n");
 };
