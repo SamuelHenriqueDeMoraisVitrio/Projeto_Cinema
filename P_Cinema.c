@@ -7,7 +7,7 @@
 #include <unistd.h>//trabalha de forma externa no terminal como sleep(para linux)
 #include <stdlib.h>//comandos no terminal
 #include <string.h>//Trabalha com string
-
+#include "functions.h"//declaração de funções
 
 char selecLetra(short letra){
     switch(letra){
@@ -179,8 +179,8 @@ int main(){//função principal
     printf("\n\n");
     */
         
-        short bancoAC = NULL;
-        short bancoAL = NULL;
+        short bancoAC = 0;
+        short bancoAL = 0;
         while(true){
             printf("\n\nVai alugar o banco de qual coluna, lembrando que temos somente %hd colunas.\n", colunas);
             scanf("%hd", &bancoAC);
@@ -228,4 +228,36 @@ int main(){//função principal
         };
     };
     printf("\n\nFim Program\n\n");
+
+    char criarTXT[100];
+    char nomeArq[100];
+    sprintf(criarTXT, "touch %s.txt", nomeFilm);
+    sprintf(nomeArq, "%s.txt", nomeFilm);
+    //printf("\n\n%s\n\n", nomeArq);
+    //system("cd ..");
+    system(criarTXT);
+
+    FILE *banco;
+
+    banco = fopen(nomeArq, "w");
+    if(banco == NULL){
+        printf("\nErro ao abrir banco\n");
+        exit(1);
+    };
+
+    fprintf(banco, "  %s\n", nomeFilm);
+    fprintf(banco, "\n\n R = Reservado e V = Vazio\n\n");
+    for(short i = 0; i < colunas; i++){
+        fprintf(banco, "\n");
+        for(short j = 0; j < linhas; j++){
+            if(PosiAssento[i][j].vaga){
+                fprintf(banco, "%s[R] ", PosiAssento[i][j].nome);
+            }else{
+                fprintf(banco, "%s[V] ", PosiAssento[i][j].nome);
+            };
+        };
+    };
+
+    fclose(banco);
+
 };
