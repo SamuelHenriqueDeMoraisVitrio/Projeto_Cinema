@@ -144,7 +144,7 @@ int main(){
 
         if(PosiAssento[bancoAC][bancoAL].vaga){
             printf("Este ja foi alugado. Tente outro");
-            qtdBancoPAlugar--;
+            l = l - 1;
         }else{
             PosiAssento[bancoAC][bancoAL].vaga = true;
         };
